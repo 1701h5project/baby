@@ -1,0 +1,8 @@
+﻿#过滤根目录下的文件
+/doc
+/web/node_modules/
+/project/
+/api/node_modules/
+
+#过滤文件
+*.zip
