@@ -122,6 +122,35 @@ a {
 	}
 	.goodsList-main{
 		padding-top: 0.84rem;
-		height: 88.88rem;
+		padding-left: 0.12rem;
+		.main-section{
+			height: 0.91rem;
+			width:3.08rem;
+			border-bottom: 0.01rem solid #d2d2d2;
+			img{
+				float:left;
+				width:0.7rem;
+				height:0.7rem;
+				margin: 0.1rem 0.1rem 0 0.1rem;
+			}
+			.section-right{
+				float: left;
+				width: 2.1rem;
+				margin-top:0.1rem;
+				.goodsName{
+					display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+				}
+				.goodsPrice{
+					color:red;
+				}
+				.goodsSalenum{
+					color: #f60;
+				}
+			}
+		}		
+
 	}
 }
