@@ -62,8 +62,7 @@ module.exports = {
                 if(error){
                     console.log(error)
                 } else {
-                    if(data.id != null ){
-                        console.log(data.id)
+                    if(data.id){
                         if(data.name){
                             var str = data.name;
                             db.collection(data.collection,function(error,collection){
@@ -90,7 +89,7 @@ module.exports = {
                         }
                     }else{
                         db.collection(data.collection,function(error,collection){
-                            collection.find().limit(100).toArray(function(error,result){
+                            collection.find().toArray(function(error,result){
                                 if(error){
                                     callback(ApiResult(false, null, error));
                                 } else {

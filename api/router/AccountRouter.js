@@ -57,8 +57,17 @@ exports.Register = function(app){
     })
 
      
-    //获取数据
+    //获取classify数据
     app.post('/showClassifyData',urlencodedParser,function(request,response){
+        var obj = request.body;
+        console.log(obj.collection)
+        console.log(request.body)
+        DB.showClassifyData(obj.collection,request.body,function(result){
+          response.send(result);
+        }); 
+    })
+     //获取goodslist数据
+    app.post('/showGoodsData',urlencodedParser,function(request,response){
         var obj = request.body;
         console.log(obj.collection)
         console.log(request.body)

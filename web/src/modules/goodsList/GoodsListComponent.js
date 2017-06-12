@@ -1,26 +1,46 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import * as goodsListActions from './GoodsListAction.js'
+import {Router, Route, hashHistory, Link} from "react-router"
+import * as goodsListActions from './GoodsListAction'
 import SpinnerComponent from '../spinner/SpinnerComponent'
 import '../classify/commonrem.js'
 import './GoodsList.scss'
-
 
 class GoodsListComponent extends React.Component {
     constructor(props){
         super(props)
     }
-
-    goodsListHandler(event){
-        this.props.classify(event.target.getAttribute('data-index'))
-        this.props.classifyGetData(event.target.getAttribute('data-id'))
+    componentWillMount(){
+        this.props.goodsGetData()
     }
-    
+    componentDidMount(){
+        window.addEventListener('scroll', this.onScroll.bind(this));
+    }
+    goodsListHandler(event){
+        this.props.goodsList(event.target.getAttribute('data-index'))
+        this.props.goodsGetData()
+        //this.props.classifyGetData(event.target.getAttribute('data-id'))
+    }
+    localStorageHandler(event){
+        window.localStorage.setItem("ID",event.target.getAttribute('data-id'))
+    }
+    goBack(){
+        window.history.back()
+    }
+    onScroll(){
+        console.log(window.scrollY)
+        var height = document.getElementsByClassName('goodsList-main')[0].offsetHeight
+        console.log(height- window.innerHeight - 50)
+        if(window.scrollY>height- window.innerHeight - 50){
+            console.log(444)
+        }
+    }
     render(){
         return(
             <div className="goodsList">
+            <SpinnerComponent show={this.props.loading}/>
                 <div className="goodsList-top">
-                    <div className="main-logo">
+                    <div className="main-logo" onClick={this.goBack}>
                         <i className="fa fa-angle-left"></i>
                     </div>
                     <div className="top-search">
@@ -32,77 +52,31 @@ class GoodsListComponent extends React.Component {
                 </div>
                 <div className="goodsList-sel">
                     <ul>
-                        <li className="active"><span>全部商品</span></li>
-                        <li><span>销售</span></li>
-                        <li><span>价格</span></li>
-                        <li><span style={{"border-right":"0"}}>筛选<i className="fa fa-filter"></i></span></li>
+                        {
+                            this.props.text.map(function(ele,index){
+                                if(index==3){
+                                    return <li onClick={this.goodsListHandler.bind(this)} data-index={index} data-id={index} className={this.props.index==index?'active':'none'}><span data-index={index}>{ele}<i className="fa fa-filter"></i></span></li>
+                                }
+                                return <li onClick={this.goodsListHandler.bind(this)} data-index={index} data-id={index} className={this.props.index==index?'active':'none'}><span data-index={index}>{ele}</span></li>               
+                            }.bind(this))
+                        } 
                     </ul>
                 </div>
                 <div className="goodsList-main">
-                    <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
-                    <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
-                     <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
-                     <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
-                     <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
-                     <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
-                     <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
-                     <div className="main-section">
-                        <img src="../../../src/static/imgs/goods/p1.jpg"/>
-                        <div className="section-right">
-                            <p className="goodsName">美素佳儿金裝3段幼儿配方奶粉900g（美素冰点价（特供商品，不与其他活动同享））</p>
-                            <p className="goodsPrice">¥169.00</p>
-                            <p className="goodsSalenum">销量:2888</p>
-                        </div>
-                    </div>
+                    {
+                        this.props.goodsdata.map((ele,index)=>{
+                            if(this.props.goodsdata.length>1){
+                                return <Link to=""><div className="main-section" data-id={ele.ID} onClick={this.localStorageHandler}>
+                                        <img data-id={ele.ID} src={"../../../src/static/imgs/goods/"+(ele.imgUrl)[0]}/>
+                                        <div data-id={ele.ID} className="section-right">
+                                            <p data-id={ele.ID} className="goodsName">{(ele.name)[0]}</p>
+                                            <p data-id={ele.ID} className="goodsPrice">¥{(ele.price)[0]}</p>
+                                            <p data-id={ele.ID} className="goodsSalenum">销量:{ele.salesNum}</p>
+                                        </div>
+                                    </div></Link>
+                            }
+                        })
+                    }
                 </div>
             </div>
         )
@@ -110,10 +84,10 @@ class GoodsListComponent extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    active: state.classify.active,
-    text:state.classify.text,
-    index:state.classify.index,
-    data:state.classify.data,
-    loading:state.classify.loading
+    active:state.goodsList.active,
+    text:state.goodsList.text,
+    index:state.goodsList.index,
+    goodsdata:state.goodsList.goodsdata,
+    loading:state.goodsList.loading
 })
 export default connect(mapStateToProps, goodsListActions)(GoodsListComponent)

@@ -9,17 +9,17 @@ import * as constants from '../../redux/commonConstant'
 //     }
 // }
 
-export function classify(index){
+export function goodsList(index){
     return {
-        type: constants.CLASSIFY_LEFT,
+        type: constants.GOODSLIST_SEL,
         index:index
     }
 }
-export function classifyGetData(classufyId){
+export function goodsGetData(index){
     return {
         types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
-        path: 'showClassifyData',
+        path: 'showGoodsData',
         method: 'post',
-        query: {'collection':'classify','id':classufyId}
+        query: {'collection':'goods'}
     }
 }
