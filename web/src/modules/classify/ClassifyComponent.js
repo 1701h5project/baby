@@ -24,6 +24,7 @@ class ClassifyComponent extends React.Component {
         window.history.back()
     }
     render(){
+        console.log(this.props.data)
         return(
             <div className="classify">
             <SpinnerComponent show={this.props.loading}/>
@@ -50,7 +51,7 @@ class ClassifyComponent extends React.Component {
                     </div>
                     <div className="main-right">
                         {
-                            (this.props.data||[]).map((eles,index)=>{
+                            (this.props.data[0].content||[]).map((eles,index)=>{
                                 if(eles.title){
                                     return <div className="section">
                                             <div className="title">{eles.title}</div>

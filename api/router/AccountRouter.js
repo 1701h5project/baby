@@ -69,11 +69,18 @@ exports.Register = function(app){
      //获取goodslist数据
     app.post('/showGoodsData',urlencodedParser,function(request,response){
         var obj = request.body;
-        console.log(obj.collection)
-        console.log(request.body)
+
         DB.showClassifyData(obj.collection,request.body,function(result){
           response.send(result);
         }); 
     })
+    //分页获取数据
+    app.post('/goods-Fy',urlencodedParser,function(request,response){
+        var obj = request.body;
+
+        DB.Fydata(obj.collection,request.body,function(result){
+          response.send(result);
+        }); 
+    });
 
 }

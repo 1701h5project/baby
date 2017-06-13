@@ -40,6 +40,18 @@ a {
 
 
 .goodsList{
+	.return-top{
+		display: none;
+		position:fixed;
+		width: 0.4rem;
+		height:0.4rem;
+		bottom:0.3rem;
+		right:0.1rem;
+		i{
+			font-size: 0.42rem;
+			color: #f60;
+		}
+	}
 	.goodsList-top{
 		position: fixed;
 		width: 100%;
@@ -147,6 +159,7 @@ a {
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 2;
                     overflow: hidden;
+                    height:0.32rem;
 				}
 				.goodsPrice{
 					color:red;
@@ -156,6 +169,5 @@ a {
 				}
 			}
 		}		
-
 	}
 }

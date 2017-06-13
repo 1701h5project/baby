@@ -11,7 +11,8 @@ export default function(state = {loading:false,text:['妈妈专区','奶粉辅�
             reState.loading = true
             break
         case types.SUCCESS:
-            reState.data = (action.body.data[0]).content
+            console.log(action.body)
+            reState.data = action.body.data
             reState.lastFetched = action.lastFetched
             reState.loading = false
             break
@@ -21,7 +22,8 @@ export default function(state = {loading:false,text:['妈妈专区','奶粉辅�
             break
         default:
             reState.active='none'
-            reState.data=[]
+            reState.data=[{'content':[]}]
+
     }
     return reState;
 }

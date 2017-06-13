@@ -15,16 +15,47 @@ export default function(state = {loading:false,text:['全部商品','销售','�
                 reState.goodsdata = action.body.data
                 reState.lastFetched = action.lastFetched
                 reState.loading = false
+                reState.num+=6
+                reState.count=action.body.message
                 break
             }
             if(reState.index == "1"){
-                reState.goodsdata = action.body.data
+                var data = action.body.data
+                for(var j = 0; j < data.length; j++){
+                    for(var i = 0; i < data.length - j; i++) {
+                        //防止出现i大于data.length的情况导致报错
+                        if(i == data.length - j - 1) {
+                            break;
+                        }
+                        if(Number(data[i].salesNum) < Number(data[i + 1].salesNum)){
+                            var temp = data[i]; 
+                            data[i] = data[i + 1]; 
+                            data[i + 1] = temp;
+                        }
+                    }
+                }
+                reState.goodsdata = data
                 reState.lastFetched = action.lastFetched
                 reState.loading = false
                 break
             }
             if(reState.index == "2"){
-                reState.goodsdata = action.body.data
+                var data = action.body.data 
+                for(var j = 0; j < data.length; j++){
+                    for(var i = 0; i < data.length - j; i++) {
+                        //防止出现i大于data.length的情况导致报错
+                        if(i == data.length - j - 1) {
+                            break;
+                        }
+                        if(Number(data[i].price[0]) < Number(data[i + 1].price[0])){
+                            // 创建一个临时变量
+                            var temp = data[i]; 
+                            data[i] = data[i + 1]; 
+                            data[i + 1] = temp; 
+                        }
+                    }
+                }
+                reState.goodsdata = data
                 reState.lastFetched = action.lastFetched
                 reState.loading = false
                 break
@@ -40,6 +71,8 @@ export default function(state = {loading:false,text:['全部商品','销售','�
         default:
             reState.active='none'
             reState.goodsdata=[]
+            reState.num=6
+            reState.count=0
     }
     return reState;
 }

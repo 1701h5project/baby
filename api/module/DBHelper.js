@@ -103,6 +103,29 @@ module.exports = {
                 db.close();
             })      
         })
+    },
+    Fydata:function(_collection, data, callback){
+        db.open(function(error, db){
+            if(error){
+                console.log('connect db:', error);
+            }
+            db.collection(data.collection,function(error,collection){
+                var num;
+                collection.count({}, function(err, count){
+                    num=count;
+                })
+                collection.find().limit(parseInt(data.num)).toArray(function(error,result){
+                    if(error){
+                        callback(ApiResult(false, null, error));
+                    } else {
+                        callback(ApiResult(true, num, result));
+                    }
+                })
+            }) 
+            db.close();
+        })
     }
+
+
 
 }

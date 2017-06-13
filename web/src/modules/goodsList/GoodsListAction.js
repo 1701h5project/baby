@@ -23,3 +23,11 @@ export function goodsGetData(index){
         query: {'collection':'goods'}
     }
 }
+export function fyGetData(num){
+    return {
+        types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
+        path: 'goods-Fy',
+        method: 'post',
+        query: {'collection':'goods','num':num}
+    }
+}

@@ -11,37 +11,49 @@ class GoodsListComponent extends React.Component {
         super(props)
     }
     componentWillMount(){
-        this.props.goodsGetData()
+        this.props.fyGetData(this.props.num);
     }
     componentDidMount(){
         window.addEventListener('scroll', this.onScroll.bind(this));
     }
     goodsListHandler(event){
         this.props.goodsList(event.target.getAttribute('data-index'))
-        this.props.goodsGetData()
+        this.props.fyGetData(this.props.num);
         //this.props.classifyGetData(event.target.getAttribute('data-id'))
     }
     localStorageHandler(event){
-        window.localStorage.setItem("ID",event.target.getAttribute('data-id'))
+        window.localStorage.setItem("id",event.target.getAttribute('data-id'))
     }
     goBack(){
         window.history.back()
     }
     onScroll(){
-        console.log(window.scrollY)
+        var ajax=this.props.loading
         var height = document.getElementsByClassName('goodsList-main')[0].offsetHeight
-        console.log(height- window.innerHeight - 50)
-        if(window.scrollY>height- window.innerHeight - 50){
-            console.log(444)
+        if(window.scrollY>height- window.innerHeight - 50 && !ajax && this.props.index==0 && this.props.num<=(this.props.count+6)){
+            this.props.fyGetData(this.props.num)
+        }
+        if(window.scrollY>50){
+            document.getElementsByClassName('return-top')[0].style.display="block"
+        }
+        if(window.scrollY<50){
+            document.getElementsByClassName('return-top')[0].style.display="none"
         }
     }
+    returnTop(){
+         document.body.scrollTop=0;
+    }
     render(){
+        console.log(this.props.count,this.props.num)
         return(
             <div className="goodsList">
+            <div className="return-top" onClick={this.returnTop}><i className="fa fa-arrow-circle-up"></i></div>
             <SpinnerComponent show={this.props.loading}/>
                 <div className="goodsList-top">
-                    <div className="main-logo" onClick={this.goBack}>
+                    <div className="main-logo">
+                    <Link to="classify">
                         <i className="fa fa-angle-left"></i>
+                    </Link>
                     </div>
                     <div className="top-search">
                         <span>
@@ -55,7 +67,7 @@ class GoodsListComponent extends React.Component {
                         {
                             this.props.text.map(function(ele,index){
                                 if(index==3){
-                                    return <li onClick={this.goodsListHandler.bind(this)} data-index={index} data-id={index} className={this.props.index==index?'active':'none'}><span data-index={index}>{ele}<i className="fa fa-filter"></i></span></li>
+                                    return <li onClick={this.goodsListHandler.bind(this)} data-index={index} data-id={index} className={this.props.index==index?'active':'none'}><span data-index={index}>{ele}<i data-index={index} className="fa fa-filter"></i></span></li>
                                 }
                                 return <li onClick={this.goodsListHandler.bind(this)} data-index={index} data-id={index} className={this.props.index==index?'active':'none'}><span data-index={index}>{ele}</span></li>               
                             }.bind(this))
@@ -88,6 +100,8 @@ const mapStateToProps = state => ({
     text:state.goodsList.text,
     index:state.goodsList.index,
     goodsdata:state.goodsList.goodsdata,
-    loading:state.goodsList.loading
+    loading:state.goodsList.loading,
+    num:state.goodsList.num,
+    count:state.goodsList.count
 })
 export default connect(mapStateToProps, goodsListActions)(GoodsListComponent)
