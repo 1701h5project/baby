@@ -4,7 +4,7 @@ var AccountRouter = require('./AccountRouter');
 
 exports.Register = function(express){
     var app = express();
-
+   
     app.all('*', function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
@@ -21,6 +21,10 @@ exports.Register = function(express){
     })
 
     AccountRouter.Register(app);
-
     return app;
+
+    
+    // app.use(express.static(path.join(path.resolve(__dirname, '../../'), '/')));
+
+    // app.listen(3000);
 }

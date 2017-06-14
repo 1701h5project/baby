@@ -5,13 +5,18 @@
 
 import * as types from '../../redux/commonConstant'
 
-export default function(state = {loading: false}, action){
-    let reState = JSON.parse(JSON.stringify(state))
+export default function(state = {loading: false,message:''}, action){
+    let reState = JSON.parse(JSON.stringify(state));
+    let msgObj = JSON.stringify(action.body);
+    if(msgObj != undefined){
+        reState.message = msgObj;
+    }
     switch(action.type){
         case types.REQUEST:
             reState.loading = true
             break
         case types.SUCCESS:
+            console.log('login')
             reState.data = action.body
             reState.lastFetched = action.lastFetched
             reState.loading = false

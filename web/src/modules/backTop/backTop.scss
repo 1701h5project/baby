@@ -1,0 +1,14 @@
+.backTop{
+        position:fixed;
+        bottom: 0.5rem;
+        right:0.15rem;
+        a{
+            display: block;
+            width:0.45rem;
+            height:0.45rem;
+            border:1px solid #ccc;
+            border-radius: 50%;
+            background:url('../../static/imgs/index/top1.png') no-repeat #fff;
+            background-size: 100%;
+        }
+    }

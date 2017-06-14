@@ -3,6 +3,7 @@
 /node_modules/
 /project/
 /CordovaProject/
-
+/api/node_modules/
+/web/node_modules/
 #过滤文件
 *.zip

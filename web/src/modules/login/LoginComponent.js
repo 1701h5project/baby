@@ -1,66 +1,64 @@
-// var React = require('react')
-// var Component = React.Component;
-// var React, {Component} = require('react');
-
-// var ReactRouter = require('react-route');
-
-// var {Router, Route, Link} = ReactRouter
-
-// var Router = ReactRouter.Router
-// var Route = ReactRouter.Route
-// var Link = ReactRouter.Link
-
-// import {Router, Route, Link} from 'React-Router'
-
+import {Router, Route, Link,hashHistory} from 'React-Router'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import * as loginActions from './LoginAction'
 import SpinnerComponent from '../spinner/SpinnerComponent'
-
-// @connect(
-//     state => ({
-//         loading: state.login.loading
-//     }),
-//     loginActions
-// )
+import './rem'
+import './Login.scss'
+// var ReactRouter = require('react-router');
+// var {Router,Route,hashHistory,Link,IndexRoute,browserHistory} = ReactRouter;
 
 class LoginComponent extends React.Component {
     constructor(props){
         super(props)
     }
-
+    goBack(){
+        window.history.back()
+    }
+    componentWillMount(){
+        if(window.localStorage.getItem('userphone') != null){
+            hashHistory.push('personal')
+        }else{
+            hashHistory.push('login')
+        }
+    }
     loginHandler(){
-        // console.log(loginActions)
-        // this.router.push('register')
-        // if(!this.refs.username){
-        //     //show up dialog => username cannot empty
-        //     return
-        // } else if(!this.refs.password){
-        //     //show up dialog => password cannot empty
-        //     return 
-        // }
-        
-        this.props.login(this.refs.username.value, this.refs.password.value)
-       console.log(this.props)
+        if(/^1\d{10}$/.test(this.refs.userphone.value) && /^[\w.]{6,20}$/.test(this.refs.password.value)){
+            window.localStorage.setItem('userphone',this.refs.userphone.value)
+            this.props.login(this.refs.userphone.value, this.refs.password.value).then(reponse => {
+                let msgObj = JSON.parse(this.props.message);
+                if(msgObj.status == true){
+                    hashHistory.push('classify')
+                }else{
+                    alert(msgObj.message)
+                }
+            })
+        }else{
+            alert('请输入正确的帐号和密码')
+        }
     }
 
     render(){
         return(
             <div className="login">
+                <div className="header">
+                    <a href="" className="iconfont icon-fanhui" onClick={this.goBack}></a>
+                </div>
                 <ul>
-                    <li><input type="text" ref="username"/></li>
-                    <li><input type="text" ref="password"/></li>
-                    <li><input type="button" value="登录" onClick={this.loginHandler.bind(this)}/></li>
-                    <li>{this.props.loading + ''}</li>
+                    <li><input type="text" ref="userphone" placeholder="请输入手机号"/></li>
+                    <li><input type="password" ref="password" placeholder="请输入密码(6-20位数字、字母、符号)"/></li>
+                    <li><input type="button" value="登录" className="btn_login" onClick={this.loginHandler.bind(this)}/></li>
+                    <li><a href="#/register">新用户注册</a><a href="">手机验证码登录</a></li>
                 </ul>
                 <SpinnerComponent show={this.props.loading}/>
             </div>
+
         )
     }
 }
 
 const mapStateToProps = state => ({
-    loading: state.login.loading
+    loading: state.login.loading,
+    message: state.login.message
 })
 export default connect(mapStateToProps, loginActions)(LoginComponent)
-// export default LoginComponent

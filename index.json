@@ -1,0 +1,18 @@
+{
+    "name":"index",
+    "banner":["banner1.jpg","banner2.jpg","banner3.jpg","banner4.jpg"],
+    "today":[{"imgInfo":"showGoods1.jpg","textInfo":"启赋4段冰点价239","priceInfo":"￥68.00起"},
+            {"imgInfo":"showGoods2.jpg","textInfo":"大王六月狂欢购物","priceInfo":"￥135.00起"},
+            {"imgInfo":"showGoods3.jpg","textInfo":"零食大放送满128减40","priceInfo":"￥6.90起"},
+            {"imgInfo":"showGoods4.jpg","textInfo":"保宁洗衣皂10块99元","priceInfo":"6.2折起"}],
+
+    "sift":[{"imgInfo":"showGoods5.jpg","textInfo":"Pouch轻便可坐可躺折叠伞车A22墨绿","priceInfo":"￥599.00起"},
+            {"imgInfo":"showGoods6.jpg","textInfo":"飞利浦新安怡宽口径自然顺畅玻璃奶瓶新生儿套装","priceInfo":"￥128.00起"},
+            {"imgInfo":"showGoods7.jpg","textInfo":"保税仓：美国Coppertone水宝宝水嫩防晒霜SPF50 88ml(效期2017.10)","priceInfo":"￥29.00起"},
+            {"imgInfo":"showGoods8.jpg","textInfo":"美素佳儿金裝3段幼儿配方奶粉900g","priceInfo":"￥29.00起"},
+            {"imgInfo":"showGoods9.jpg","textInfo":"Baby Ganics甘尼克宝贝 泡沫免洗洗手液（无香）50ml","priceInfo":"￥168.00起"},
+            {"imgInfo":"showGoods10.jpg","textInfo":"美素佳儿金裝3段幼保税仓：Concord德国康科德 Transformer X-BAG 变形金刚至尊型汽车安全座椅（紫色）3岁-12周岁儿配方奶粉900g","priceInfo":"￥999.00起"},
+            {"imgInfo":"showGoods11.jpg","textInfo":"nuby努比食物研磨器-颜色随机","priceInfo":"￥48.00起"}]
+          
+  
+}
