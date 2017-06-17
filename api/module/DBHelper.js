@@ -281,6 +281,28 @@ module.exports = {
         //     db.close();
         // })
     },
+    goodsSearch:function(_collection,data,callback){
+        // db.open(function(error,db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
+            db.collection(_collection, function(error, collection){
+                if(error){
+                    console.log(error)
+                } else {
+                    var str = data.name
+                    db.collection(data.collection,function(error,collection){
+                        db.collection(data.collection,function(error,collection){
+                            collection.find( { name: { $regex: str, $options: 'i' } } ).toArray(function(error,result){
+                                callback(result);
+                            });
+                        })
+                    })    
+                }
+            //     db.close();
+            // })      
+        })
+    },
     showAccount: function(_collection,data,callback){
         // db.open(function(error,db){
         //     if(error){
