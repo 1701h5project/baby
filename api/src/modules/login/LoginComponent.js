@@ -38,14 +38,14 @@ class LoginComponent extends React.Component {
             let datas = JSON.parse(JSON.stringify(this.props.data))
             // console.log(datas)
             if (datas.status==true) {
-                 hashHistory.push('/index')
+                 hashHistory.push('/index/welcome')
                  var nikname = this.refs.username.value
                  window.sessionStorage.setItem('nikname',nikname)
                 //  this
                  // hashHistory.replace('../../../H-ui.admin_3.1./index.html')
                  // window.location.href='../../../H-ui.admin_3.1./index.html'
             }else{
-                alert(datas.message)
+                alert("帐号或密码错误")
             }
         })
        // console.log(this.props)

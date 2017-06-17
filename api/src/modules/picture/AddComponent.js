@@ -1,17 +1,3 @@
-// var React = require('react')
-// var Component = React.Component;
-// var React, {Component} = require('react');
-
-// var ReactRouter = require('react-route');
-
-// var {Router, Route, Link} = ReactRouter
-
-// var Router = ReactRouter.Router
-// var Route = ReactRouter.Route
-// var Link = ReactRouter.Link
-
-// import {Router, Route, Link} from 'React-Router'
-
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import * as AddActions from './AddAction'
@@ -29,7 +15,7 @@ import './add.js'
 //         loading: state.Add.loading
 //     }),
 //     AddActions
-// )
+// ) 
 
 class AddComponent extends React.Component {
     constructor(props){
@@ -37,24 +23,58 @@ class AddComponent extends React.Component {
     }
     // 退出
     Adddel(){
-        hashHistory.push('/index')
+        hashHistory.push('/index/product')
         window.sessionStorage.removeItem('id')
-        // window.location.reload()
     }
     // 保存
     Addprcture(){
-        this.props.Add(this.refs.id.value, this.refs.name.value,this.refs.salesNum.value,this.refs.agioTitle.value,this.refs.imgUrl.value,this.refs.price.value,this.refs.specification.value,this.refs.parameter.value,this.refs.imgFooter.value,this.refs.produce.value,)
-        hashHistory.push('/index')
+        this.props.Add(this.refs.id.value,this.refs.name.value,this.refs.salesNum.value,this.refs.agioTitle.value,this.refs.imgUrl.value,this.refs.price.value,this.refs.specification.value,this.refs.parameter.value,this.refs.imgFooter.value,this.refs.produce.value,)
         window.sessionStorage.removeItem('id')
-        // window.location.reload()
          alert("保存成功")
+         hashHistory.push('/index/product')
+         
     }
     componentWillMount(){
-	    let qaz = window.sessionStorage.getItem('id')
-        this.props.indexxun(qaz)
-		// this.props.index('goods')
+        // if(window.sessionStorage.getItem('id')!=null){
+            this.props.indexxun(window.sessionStorage.getItem('id'))
+        // }
+         
+       
+        
 	}
+    // componentDidUpdate(){componentWillMount
+    //     let ID,AgioTitle, name,salesNum,imgUrl,price,specification,parameter,imgFooter,produce
+    //     if(this.props.datas!=undefined && this.props.datas.length > 0){
+            
+    //          this.props.datas.map(function(item,index){
+    //             ID = item.id
+    //             AgioTitle = item.agioTitle
+    //             name = item.name
+    //             salesNum = item.salesNum
+    //             imgUrl = item.imgUrl
+    //             price= item.price
+    //             specification = item.specification
+    //             parameter = item.parameter
+    //             imgFooter = item.imgFooter
+    //             produce = item.produce
+    //          })
+    //          
+    //         // this.refs.name.value = AgioTitle
+    //         // document.getElementById("o").value="AgioTitle";
+    //         // $('#o').val(AgioTitle)
+    //         $('#t').val(name)
+    //         $('#th').val(salesNum)
+    //         $('#fqwe').val(imgUrl)
+    //         $('.fi').val(price)
+    //         $('.s').val(specification)
+    //         $('.se').val(parameter)
+    //         $('.e').val(imgFooter)
+    //         $('#n').val(produce)
+    //     }
+    // }
     render(){
+        // this.props.indexxun(window.sessionStorage.getItem('id'))
+        
        let ID,AgioTitle, name,salesNum,imgUrl,price,specification,parameter,imgFooter,produce
         if(this.props.datas!=undefined && this.props.datas.length > 0){
              this.props.datas.map(function(item,index){
@@ -69,17 +89,20 @@ class AddComponent extends React.Component {
                 imgFooter = item.imgFooter
                 produce = item.produce
              })
-           
+            // this.refs.name.value = AgioTitle
+            // document.getElementById("o").value="AgioTitle";
+                $('#o').val(AgioTitle)
+            // $('#ss').val(ID)
+            $('#t').val(name)
+            $('#th').val(salesNum)
+            $('#fqwe').val(imgUrl)
+            $('.fi').val(price)
+            $('.s').val(specification)
+            $('.se').val(parameter)
+            $('.e').val(imgFooter)
+            $('#n').val(produce)
         }
-        $('#o').val(AgioTitle)
-        $('#t').val(name)
-        $('#th').val(salesNum)
-        $('#fqwe').val(imgUrl)
-        $('.fi').val(price)
-        $('.s').val(specification)
-        $('.se').val(parameter)
-        $('.e').val(imgFooter)
-        $('#n').val(produce)
+       
         
         return(
              <div className="layui-layer layui-layer-iframe  layer-anim" id="layui-layer2" type="iframe" times="2" showtime="0" contype="string">
@@ -89,62 +112,68 @@ class AddComponent extends React.Component {
                       <div className="page-container">
                           <form className="form form-horizontal" id="form-article-add">
                                  <div className="row cl">
-                                    <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>ID</label>
+                                    <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>ID：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
-                                        <input type="text" className="input-text" value={ID} id="" name="" ref="id" />
+                                        <input type="text" className="input-text"value={window.sessionStorage.getItem('id')} id="ss" name="" ref="id" />
                                     </div>
                                     </div>
-                                 <div className="row cl">
-                                   <label className="form-label col-xs-4 col-sm-2 "><span className="c-red">*</span>商品名称：</label>
+                                 {/*<div className="row cl">
+                                   <label className="form-label col-xs-4 col-sm-2 "><span className="c-red">*</span>表名</label>
+                                    <div className="formControls col-xs-8 col-sm-9">
+                                        <input type="text" className="input-text"   id="t" name=""  ref="Tablename"/>
+                                    </div>
+                                    </div>*/}
+                                <div className="row cl">
+                                   <label className="form-label col-xs-4 col-sm-2 ">商品名称：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" className="input-text"   id="t" name=""  ref="name"/>
                                     </div>
                                     </div>
                                  <div className="row cl">
-                                   <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>销量</label>
+                                   <label className="form-label col-xs-4 col-sm-2">销量：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" className="input-text" id="th"   ref="salesNum"/>
                                     </div>
                                     </div>
                                  <div className="row cl">
-                                   <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>标题</label>
+                                   <label className="form-label col-xs-4 col-sm-2">标题：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" className="input-text" id="o"  ref="agioTitle"/>
                                     </div>
                                     </div>
                                  <div className="row cl">
-                                    <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>图片地址</label>
+                                    <label className="form-label col-xs-4 col-sm-2">图片地址：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" className="input-text" id="fqwe" ref="imgUrl" />
                                     </div>
                                     </div>
                                  <div className="row cl">
-                                    <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>价格</label>
+                                    <label className="form-label col-xs-4 col-sm-2">价格：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" id="datemin" className="input-text Wdate fi" ref="price" />
                                     </div>
                                     </div>
                                  <div className="row cl">
-                                    <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>规格</label>
+                                    <label className="form-label col-xs-4 col-sm-2">规格：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" id="datemin" className="input-text Wdate s" ref="specification" />
                                     </div>
                                     </div>
                                  <div className="row cl">
-                                    <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>参数</label>
+                                    <label className="form-label col-xs-4 col-sm-2">参数：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" id="datemin" className="input-text Wdate se" ref="parameter" />
                                     </div>
                                   </div>
                                  <div className="row cl">
-                                    <label className="form-label col-xs-4 col-sm-2"><span className="c-red">*</span>其他图片</label>
+                                    <label className="form-label col-xs-4 col-sm-2">其他图片：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <input type="text" id="datemin" className="input-text Wdate e" ref="imgFooter" />
                                     </div>
                                     </div>
 
                                  <div className="row cl">
-                                    <label className="form-label col-xs-4 col-sm-2">商品描述</label>
+                                    <label className="form-label col-xs-4 col-sm-2">商品描述：</label>
                                     <div className="formControls col-xs-8 col-sm-9">
                                         <textarea name="" cols="" rows="" className="textarea" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" ref="produce" id="n" placeholder="不多于200字"></textarea>
                                     
@@ -159,9 +188,9 @@ class AddComponent extends React.Component {
                                                 <div id="dndArea" className="placeholder">
                                                     <div id="filePicker-2">
                                                         <div className="webuploader-container">
-                                                            <form className="formfile">
+                                                            <form id="formfile">
                                                                 <input type="file" name="photos" value="点击选择图片" />
-                                                                <input type="button" name="" value="上传" className="shangchuan" />
+                                                                <input type="button" name="" value="上传" id="shangchuan" />
                                                             </form>	
                                                         </div>
                                                     </div>
@@ -173,8 +202,9 @@ class AddComponent extends React.Component {
                                 </div>
                               <div className="row cl">
                                 <div className="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2 col-qwe">
-                                    <button  className="btn btn-primary radius" type="button" onClick={this.Addprcture.bind(this)}><i className="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
-                                    <button className="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+                                    
+                                    <button  className="btn btn-primary radius" type="button" onClick={this.Addprcture.bind(this)}>保存并提交审核</button>
+                                    <button className="btn btn-default radius" type="button" onClick={this.Adddel}>&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
                                 </div>
                                </div>
                           </form>

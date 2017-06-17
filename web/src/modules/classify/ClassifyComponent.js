@@ -11,10 +11,12 @@ class ClassifyComponent extends React.Component {
     constructor(props){
         super(props)
     }
+    //进入页面发送第一次ajax请求
     componentWillMount(){
         var zz = window.localStorage.getItem('zz')
         this.props.classifyGetData(zz ||'classify0')
     }
+    //保存点击tab标签后的触发的事件
     classifyHandler(event){
         window.localStorage.setItem('zz',event.target.getAttribute('data-id'))
         this.props.classify(event.target.getAttribute('data-index'))
@@ -23,9 +25,17 @@ class ClassifyComponent extends React.Component {
     goBack(){
         window.history.back()
     }
+    //搜索功能向列表页传参
+    search(){
+        if(this.refs.search.value){
+            window.localStorage.setItem('search',this.refs.search.value);
+            window.location.href = 'index.html#/goodsList'
+        }else{
+            alert('搜索不能为空')
+        }
+    }
     render(){
-        console.log(this.props.data)
-        let dataClassify=1
+        let dataClassify;
         if(this.props.data.length>0 && this.props.data[0].hasOwnProperty('content')){
             dataClassify=((this.props.data[0]).content).map((eles,index)=>{
                                 if(eles.title){
@@ -53,10 +63,10 @@ class ClassifyComponent extends React.Component {
                         <i className="fa fa-angle-left"></i>
                     </div>
                     <div className="top-search">
-                        <span>
+                        <span onClick={this.search.bind(this)}>
                             <i className="fa fa-search"></i>
                         </span>
-                        <input type="text" placeholder="搜索" id="search"/>
+                        <input ref="search" type="text" placeholder="搜索" id="search"/>
                     </div>
                 </div>
                 <div className="classify-main">
@@ -98,7 +108,7 @@ class ClassifyComponent extends React.Component {
                         <li>
                         <Link to="login">
                             <i id="center"></i>
-                            <span>帐号</span>
+                            <span>账户</span>
                         </Link>
                         </li>
                     </ul>

@@ -2,113 +2,101 @@ import {Router,Route,Link,hashHistory} from 'React-Router'
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import * as detailActions from './DetailAction'
-import Slider from './../app/Slider/Slider';
+import Slider from '../app/Slider/Slider';
 import './Detail.scss'
-import './rem'
 
-// const IMAGE_DATA = [
-//         {
-//             src: require(imgUrl[0].props.src),
-//             alt: 'images-1',
-//         },
-//         {
-//             src: require(imgUrl[1].props.src),
-//             alt: 'images-2',
-//         },
-//         {
-//             src: require(imgUrl[2].props.src),
-//             alt: 'images-3',
-//         },
-//         {
-//             src: require(imgUrl[3].props.src),
-//             alt: 'images-4',
-//         },
-// ]
 
 
 class DetailComponent extends React.Component{
     constructor(props){
         super(props)
     }
+    //获取商品ID显示内容
     componentWillMount() {
-        var id = window.localStorage.getItem('id');
-        id ? id : "p1"
+        let id = window.localStorage.getItem('id');
+        id ? id : "p1";
         this.props.getInfo(id).then(reponse =>{
-        
+
         });
     }
+    //添加到购物车表
     addUsershopinfo(){
-        console.log(window.localStorage.getItem('userphone'))
         if ( window.localStorage.getItem('userphone') != null && this.props.detailInfo != undefined&&this.props.detailInfo.length>0 ){
             let shopObj = this.props.detailInfo[0];
             shopObj.userPhone = window.localStorage.getItem('userphone')
             shopObj.qty = this.props.num;
             shopObj.collection = "address";
-            console.log(shopObj)
+            shopObj.check = "true";
+            shopObj.color = "#f60";
             this.props.addUsershop(shopObj)
-            // hashHistory.push('shopCar')
-            alert('加入购物车成功!')
+            hashHistory.push('goodsList')
         }else{
             hashHistory.push('login')
         }
     }
-    
-
-
+    //返回键
     goBack(){
         window.history.back()
     }
+
     render(){
-        let price,name,agioTitle,produce,specification,parameter,imgFooter,imgUrl
+        //数据生成信息
+        let price,name,agioTitle,produce,specification,parameter,imgFooter,imgUrl,IMAGE_DATA = []
         if (this.props.detailInfo != undefined&&this.props.detailInfo.length>0){
             price = this.props.detailInfo[0].price[0];
             name = this.props.detailInfo[0].name;
             agioTitle = this.props.detailInfo[0].agioTitle;
             produce = this.props.detailInfo[0].produce;
-            specification = this.props.detailInfo[0].specification;
+            specification = this.props.detailInfo[0].specification.map(function(item){
+                return <span>{item}</span>
+            });
             parameter = this.props.detailInfo[0].parameter.split(",").map(function(item){
                 return <p>{item}</p>
             });
             imgFooter = this.props.detailInfo[0].imgFooter.map(function(item){
                 return <img src={'src/static/imgs/goods/'+item+''}/>
             });
-            imgUrl = this.props.detailInfo[0].imgUrl.map(function(item){
-                return <img src={'src/static/imgs/goods/'+item+''}/>
+            imgUrl = this.props.detailInfo[0].imgUrl.map(function(item,index){
+                IMAGE_DATA.push({
+                    src:'../../src/static/imgs/goods/'+item+'',
+                    alt:'images-'+(index+1)+''
+                })
             })
         }
-    
-        
-        
-       
         const { increment, decrement, detail } = this.props;
         return(
-            
             <div className="detail">
-                <div className="search">
-                    <Link to="goodsList"className="iconfont icon-fanhui"></Link>
-                    <span className="iconfont icon-search2"></span>
-                    <input type="search" placeholder="搜索母婴商品"/>
+                <div className="top">
+                    <Link className="fa fa-angle-left" onClick={this.goBack}></Link>
+                    <span>{name}</span>
                 </div>
                 <div className="show_img">
-                    <img src={'src/static/imgs/goods/p1-1.jpg'}/>
+                    <Slider
+                        items={IMAGE_DATA}
+                        speed={1.2}
+                        delay={2.1}
+                        pause={true}
+                        autoplay={true}
+                        dots={true}
+                        arrows={true}
+                    />
                 </div>
                 <div className="show_detail">
                     <ul>
                         <li>￥ {price}</li>
-                        <li>{name}</li>
                         <li>{agioTitle}</li>
-                        <li>{produce}</li>
+                        <li><p>{produce}</p></li>
                     </ul>
                 </div>
                 <div className="specification">
                     <p>规格</p>
-                    <span>{specification}</span>
+                    {specification}
                 </div>
                 <div className="show_comment">
-                    <div>其它妈妈怎么说<span>99%</span>好评（1084人）</div>
+                    <div>其它妈妈怎么说<span> 99% </span>好评（1084人）</div>
                     <ul>
-                        <li>1 5星 时间</li>
-                        <li>一直是我信赖的奶粉，对宝宝各方面都很好</li>
+                        <li>Joe 五星 时间</li>
+                        <li><p>一直是我信赖的奶粉，对宝宝各方面都很好</p></li>
                     </ul>
                 </div>
                 <div className="show_ad">
@@ -123,7 +111,7 @@ class DetailComponent extends React.Component{
                 </div>
                 <div className="to_car">
                     <ul>
-                        <li><i className="iconfont icon-gouwuche"></i><span></span></li>
+                        <li><Link to="shopCar"><i className="iconfont icon-gouwuche"></i></Link></li>
                         <li>
                             <button className="btn_l" onClick={decrement}>-</button>
                             <input type="text" value={this.props.num}></input>

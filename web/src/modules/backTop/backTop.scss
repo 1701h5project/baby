@@ -1,14 +1,24 @@
-.backTop{
-        position:fixed;
-        bottom: 0.5rem;
-        right:0.15rem;
+.back_btn{
+    width:0.36rem;
+    position:fixed;
+    bottom: 0.5rem;
+    right:0.15rem;
+    .backIndex{
+
         a{
             display: block;
-            width:0.45rem;
-            height:0.45rem;
-            border:1px solid #ccc;
+            width:0.36rem;
+            height:0.36rem;
+            color:#fff;
+            font-size: 0.25rem;
             border-radius: 50%;
-            background:url('../../static/imgs/index/top1.png') no-repeat #fff;
-            background-size: 100%;
+            background:#f60;
+            text-align: center;
+            line-height: 0.36rem;
         }
     }
+    .backTop{
+       margin:0.05rem 0;
+       @extend .backIndex;
+    }
+}

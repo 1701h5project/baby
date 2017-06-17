@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import * as registerActions from './RegisterAction'
 import SpinnerComponent from '../spinner/SpinnerComponent'
-import './rem'
 import './Register.scss'
 
 class RegisterComponent extends React.Component {
@@ -32,7 +31,7 @@ class RegisterComponent extends React.Component {
         return(
             <div className="register">
                 <div className="header">
-                    <a href="" className="iconfont icon-fanhui" onClick={this.goBack}></a>
+                    <a href="" className="fa fa-angle-left" onClick={this.goBack}></a>
                 </div>
                 <ul>
                     <li><input type="text" ref="nickname" placeholder="请输入昵称"/></li>

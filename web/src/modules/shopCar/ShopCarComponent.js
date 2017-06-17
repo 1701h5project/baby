@@ -4,7 +4,6 @@ import { Router, Route, hashHistory, Link } from 'react-router'
 import {bindActionCreators} from 'redux'
 import * as ShopCarActions from './ShopCarAction'
 import SpinnerComponent from '../spinner/SpinnerComponent'
-// import '../../static/styles/common.scss'
 import './shopCar.scss'
 
 // @connect(
@@ -16,64 +15,108 @@ import './shopCar.scss'
 
 class ShopCarComponent extends React.Component {
     constructor(props){
-        super(props)
-        //this.state = {checked:false}        
+        super(props)      
+    }
+
+    componentDidMount() {  
+        this.props.shopCar(localStorage.getItem('userphone','value'))
+	}
+    componentDidUpdate(){
+        var arr1 = document.getElementsByClassName('ischeck')  
+        if(arr1.length>0){
+            var check = true;
+            for(var i=0;i<arr1.length;i++){
+                if(arr1[i].getAttribute('data-ischeck') != 'true'){ check=false}   
+            }
+            if(check){
+                document.getElementById('check_all').style.background='#f60';
+            }else{
+                document.getElementById('check_all').style.background='#fff';
+            }
+        }
+
+        var arr = document.getElementsByClassName('introduce1')
+        //console.log(arr)
+        var maxwidth = 18;
+        if(arr.length > 0){
+            for(var i=0;i<arr.length;i++){
+                var oldText = arr[i].innerText;
+                if (oldText.length > maxwidth) {  
+                    var newText = oldText.substring(0,maxwidth)+"...";  
+                    arr[i].innerText = newText;
+                }  
+            }
+        }
+        
+        var arrtext = document.getElementsByClassName('zongji')
+        if(arrtext.length>0){
+            if(arrtext[0].innerText != 0.00 ){
+                document.getElementById('gobtn1').style.display = 'block';
+                document.getElementById('gobtn2').style.display = 'none';
+            }else{
+                document.getElementById('gobtn1').style.display = 'none';
+                document.getElementById('gobtn2').style.display = 'block';
+            }
+        }
     }
 
 	increment(id,qty){
-        let arr =  qty +1
-        //this.refs.value.value = arr
-        this.props.decrement({'_id':id,'data':JSON.stringify({"qty":arr})})
-        //this.props.shopCar(sessionStorage.getItem('phone','value'))
-        // window.location.reload()         
+        let arr =  Number(qty) +1
+        this.props.decrement({'_id':id,'data':JSON.stringify({"qty":arr})}).then(reponse =>{
+             this.props.shopCar(localStorage.getItem('userphone','value'))
+        });      
 	}
 
 	decrement(id,qty){
-        if(qty >=1){qty -=1}
-        else{qty =0}
-        //this.refs.value.value = qty
-        this.props.decrement({"_id":id,"data":JSON.stringify({"qty":qty})})
-        //this.props.shopCar(sessionStorage.getItem('phone','value'))
-        // window.location.reload()       
+        if(qty >1){qty -=1}
+        else{qty =1}
+        this.props.decrement({"_id":id,"data":JSON.stringify({"qty":qty})}).then(reponse =>{
+             this.props.shopCar(localStorage.getItem('userphone','value'))
+        });      
 	}
 
-    remove(id){
-        this.props.remove({"_id":id})
-        //this.props.shopCar(sessionStorage.getItem('phone','value'))
-        // window.location.reload()    
+    remove(id,index){
+        console.log(id,index)
+        console.log(localStorage.getItem('userphone'))
+        this.props.remove({"_id":id}).then(reponse =>{
+             this.props.shopCar(localStorage.getItem('userphone','value'))
+        });      
     }
 
-    componentWillMount() {  
-        this.props.shopCar(localStorage.getItem('userphone','value'))
-        //console.log(this.refs.price.value)
-        //返回的数据
-        //  .then(function(response){
-        //      console.log(response)
-        //     let resObj = this.props.dataing
-        //     console.log(resObj.data)
-        //     if(resObj.status == true){
-                      
-        //     }else{
-        //        // this.setState({datas: resObj.data}) 
-        //         //console.log('2:', resObj.data)
-        //         //alert(resObj.dataing)
-        //     }
-        // }.bind(this))
-	}
-
     check(id,check){
-        //console.log(id)
-        //console.log(true == 'false')
-       //console.log(e.target.getAttribute('data-ischeck'))
         if(check == 'false'){
-            this.props.check({"_id":id,"data":JSON.stringify({"check":'true',"color":"#f60"})})
+            this.props.check({"_id":id,"data":JSON.stringify({"check":'true',"color":"#f60"})}).then(reponse =>{
+                this.props.shopCar(localStorage.getItem('userphone','value'))
+            });      
         }else{
-            this.props.check({"_id":id,"data":JSON.stringify({"check":'false',"color":"#fff"})})
+            this.props.check({"_id":id,"data":JSON.stringify({"check":'false',"color":"#fff"})}).then(reponse =>{
+                 this.props.shopCar(localStorage.getItem('userphone','value'))
+            });      
         }
-        window.location.reload()
-        //{"_id":id,"data":JSON.stringify({"qty":qty})
-        //let  index = event.target.index?index:
-        //this.props.check(id)
+    }
+
+    checkall(){
+        if((document.getElementById('check_all').style.background) == 'rgb(255, 102, 0)'){
+            this.props.checkall({'phone':localStorage.getItem('userphone','value'),"data":JSON.stringify({"check":'false',"color":"#fff"})}
+                ).then(reponse =>{
+                    this.props.shopCar(localStorage.getItem('userphone','value'))
+            });    
+        }else{
+            this.props.checkall({'phone':localStorage.getItem('userphone','value'),"data":JSON.stringify({"check":'true',"color":"#f60"})}
+                ).then(reponse =>{
+                    this.props.shopCar(localStorage.getItem('userphone','value'))
+            });   
+        }
+    }
+
+    order(){
+        var phone = window.localStorage.getItem('userphone','value')
+        window.sessionStorage.setItem('phone',phone);
+        hashHistory.push('/order')
+    }
+
+    linkto(id){
+        window.localStorage.setItem('id',id);
     }
 
     goback(){
@@ -81,45 +124,45 @@ class ShopCarComponent extends React.Component {
     }
 
     render(){
-        //var self = this
         if((localStorage.getItem('userphone','value') != null) && (this.props.dataing.data !=undefined) && (this.props.dataing.data.length>0)){
-           console.log(this.props.dataing.data)
+            //console.log(this.props.dataing.data)
             var res = 0;
             var arr = [];
             var items = this.props.dataing.data
             var itemHtml = items.map(function(item,index){
-                //console.log(item.(0[id]))
                 return <li key={index} className="product" id={"product"+index}>
-                    <div className="checkbox_add"><span style={{'background':item.color}} data-ischeck={item.check} onClick={this.check.bind(this,item._id,item.check)}></span></div>
-                    <div className="img"><a href={item.http} ><img src={'src/static/imgs/goods/'+item.imgUrl[0]} alt=""/></a></div>
-                    <div className="introduce"><a href="">{item.name}</a>
+                    <div className="checkbox_add"><span className="ischeck" style={{'background':item.color}} data-ischeck={item.check} onClick={this.check.bind(this,item._id,item.check)}></span></div>
+                    <div className="img"><Link to="detail" onClick={this.linkto.bind(this,item.id)} ><img src={'src/static/imgs/goods/'+item.imgUrl[0]} alt=""/></Link></div>
+                    <div className="introduce"><Link to="detail" className="introduce1" onClick={this.linkto.bind(this,item.id)}>{item.name}</Link>
                     <span className="btnMinus" onClick={this.decrement.bind(this,item._id,item.qty)}>-</span>
                     <input type="text" value={item.qty} ref='value'/><span className="btnAdd" onClick={this.increment.bind(this,item._id,item.qty)}>+</span></div>
-                    <div className="toprice"><span>￥</span><span className="price">{item.price}</span></div>
-                    
-                    
-                    <div className="del" onClick={this.remove.bind(this,item._id)}>x</div>
+                    <div className="toprice"><span>￥</span><span className="price">{item.price}</span></div> 
+                    <div className="del" onClick={this.remove.bind(this,item._id,index)}>x</div>
+                    {/*{<div className="zhekou">满3减50</div>}*/}
                 </li>;
             }, this)
             return(
                 <div className="shopCar">
-                    <header><i className="go-back" onClick={this.goback.bind(this)}>  &lt; </i><span>购 物 车</span></header>
-                   
+                    <header><i className="go-back fa fa-angle-left" onClick={this.goback.bind(this)}> </i><span>购 物 车</span></header>               
                     <ul className="shopadd">{itemHtml}</ul>
                     <SpinnerComponent show={this.props.loading}/>                   
                     <div className="totalPrice">
-                        <div className="checkall"><input type="checkbox"/>全选</div>
+                        <div className="checkall"><span id="check_all"  onClick={this.checkall.bind(this)}></span><p>全选</p></div>
                         <div className="jiage">
-                            <p>总计：<span>￥</span><span className="zongji">{                      
+                            <p>总计：<span>￥</span><span className="zongji" id="zongji">{                      
                                items.map(function(item,index){
                                    if(item.check=='true'){
                                         res +=  Number(item.price*item.qty)
+                                        {/*if(item.qty>2){
+                                            res -= 50
+                                        }*/}
                                    }                                   
-                                })}{res}
+                                })}{res.toFixed(2)}
                                 </span></p>
-                            <p>(不含运费、综合税)</p>
+                            <span className="yunfei">(不含运费、综合税)</span>
                         </div>
-                        <Link to="/login" className="gobtn">去结算</Link>
+                        <Link className="gobtn" id="gobtn1" style={{"display":"block","background":"#f60"}} onClick={this.order.bind(this)}>去结算</Link>
+                        <a href="javascript:void(0)"  className="gobtn" id="gobtn2" style={{"display":"none","background":"#ccc","color":"#82737A"}}>去结算</a>
                     </div>                
                     <footer>
                         <ul>
@@ -151,15 +194,15 @@ class ShopCarComponent extends React.Component {
         else{
             return(
                 <div className="shopCar">
-                    <header><i className="go-back" onClick={this.goback}> &lt; </i><span>购 物 车</span></header>
+                    <header><i className="go-back fa fa-angle-left" onClick={this.goback.bind(this)}> </i><span>购 物 车</span></header>
                     <div className="shopnull">
                         <img src="src/static/imgs/img_null.png" alt=""/>
                         <p>您的购物车空空如也~</p>
-                        <Link to="/login">去首页看看</Link>
+                        <Link to="/">去首页看看</Link>
                     </div>          
                     <footer>
                          <ul>
-                            <li><Link to="login">
+                            <li><Link to="/">
                                 <img src="src/static/imgs/m-icon1.png" alt=""/>
                                 <span>首页</span>
                                 </Link>
@@ -195,10 +238,9 @@ const mapStateToProps = state => ({
     //return state
 })
   
-//将action的所有方法绑定到props上
-const mapDispatchToProps = dispatch => {
-	//console.log(bindActionCreators(ShopCarActions, dispatch));
-  	return bindActionCreators(ShopCarActions, dispatch)
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ShopCarComponent)
-// export default ShopCarComponent
+// //将action的所有方法绑定到props上
+// const mapDispatchToProps = dispatch => {
+// 	//console.log(bindActionCreators(ShopCarActions, dispatch));
+//   	return bindActionCreators(ShopCarActions, dispatch)
+// }
+export default connect(mapStateToProps, ShopCarActions)(ShopCarComponent)

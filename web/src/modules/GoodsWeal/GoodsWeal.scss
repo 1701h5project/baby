@@ -13,6 +13,18 @@
                 }
             }
         }
+        .tabBox{
+            width:100%;
+            .anchor{
+                width:100%;
+                overflow: hidden;
+                a{
+                    img{
+                        width:3.2rem;
+                    }
+                }
+            }
+        }
         .title_logo{
             width:3.2rem;
             height:0.8rem;
@@ -42,7 +54,7 @@
                         }
                     }
                     .goods_name{
-                        font-size: 0.14rem;
+                        font-size: 0.13rem;
                         color:#777;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -52,7 +64,7 @@
                         
                     }
                     .goods_price{
-                        font-size: 0.13rem;
+                        font-size: 0.12rem;
                         color:red;
                         margin-top:0.1rem;
                     }

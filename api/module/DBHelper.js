@@ -3,14 +3,17 @@ var ApiResult = require('./ApiResult')
 var MongoDB = require('mongodb');
 var MongoDBServer = new MongoDB.Server('localhost', 27017);
 var db = new MongoDB.Db('babyApp', MongoDBServer);
-
+db.open(function(err,db){
+    if(err)throw err;
+    console.info('mongodb connected');
+});
 module.exports = {
     get: function(_collection, _condition, _callback){
-        db.open(function(dberror){
-            if(dberror){
-                _callback(ApiResult(false, null, dberror));
-                return;
-            }
+        // db.open(function(dberror){
+        //     if(dberror){
+        //         _callback(ApiResult(false, null, dberror));
+        //         return;
+        //     }
 
             db.collection(_collection, function(collerror, collection){
                 if(collerror){
@@ -26,15 +29,15 @@ module.exports = {
                     }
                 })
             })
-            db.close();
-        })
+        //     db.close();
+        // })
     },
     insert: function(_collection, _newdata, _callback){
-        db.open(function(dberror){
-            if(dberror){
-                _callback(ApiResult(false, null, dberror));
-                return;
-            }
+        // db.open(function(dberror){
+        //     if(dberror){
+        //         _callback(ApiResult(false, null, dberror));
+        //         return;
+        //     }
 
             db.collection(_collection, function(collerror, collection){
                 if(collerror){
@@ -49,15 +52,15 @@ module.exports = {
                     }
                 })
             })
-            db.close();
-        })
+        //     db.close();
+        // })
     },
     //判断是否存在
     exists : function(_collection, data, key, callback){
-        db.open(function(error, db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error, db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             db.collection(_collection, function(error, collection){
                 if(error){
@@ -69,16 +72,16 @@ module.exports = {
                         callback(docs[0])
                     });
                 }
-                db.close();
+                //db.close();
             })
-        })  
+        //})  
     },
     //添加数据
     saveData : function(_collection, data){
-        db.open(function(error, db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error, db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             db.collection(_collection, function(error, collection){
                 if(error){
@@ -87,16 +90,16 @@ module.exports = {
                     // console.log(123,data)
                     collection.insert(data);
                 }
-                db.close();
+                //db.close();
             })
-        })
+        //})
     },
     //删除数据
     removeData : function(_collection, data){
-        db.open(function(error, db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error, db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             db.collection(_collection, function(error, collection){
                 if(error){
@@ -104,16 +107,16 @@ module.exports = {
                 } else {
                     collection.remove({id:data.id},true);
                 }
-                db.close();
+                //db.close();
             })
-        })
+        //})
     },
     //获取数据
     showData : function(_collection,data,callback){
-        db.open(function(error,db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error,db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             db.collection(_collection, function(error, collection){
                 console.log(_collection)
@@ -140,7 +143,7 @@ module.exports = {
                     else if(data.page != null){
                         var num = data.page - 1;
                         db.collection(data.collection,function(error,collection){
-                            collection.find().limit(20).skip(num*20).toArray(function(error,shops){
+                            collection.find().limit(5).skip(num*5).toArray(function(error,shops){
                                 // console.log(shops);
                                 callback(shops);
                             })
@@ -158,16 +161,16 @@ module.exports = {
 
 
                 }
-                db.close();
+               // db.close();
             })      
-        })
+        //})
     },
     //更新数据
     updatedata : function(_collection, data){
-        db.open(function(error, db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error, db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             db.collection(_collection, function(error, collection){
                 if(error){
@@ -177,15 +180,15 @@ module.exports = {
                     // collection.insert(data);
                     collection.update({id:data.id},data);
                 }
-                db.close();
+               // db.close();
             })
-        })
+        //})
     },
     indexGetdata : function(_collection, data, key, callback){
-        db.open(function(error, db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error, db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
 
             db.collection(_collection, function(error, collection){
                 if(error){
@@ -197,71 +200,45 @@ module.exports = {
                         callback(docs)
                     });
                 }
-                db.close();
+                //db.close();
             })
-        })
+        //})
     },
     showClassifyData:function(_collection,data,callback){
-        db.open(function(error,db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error,db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             db.collection(_collection, function(error, collection){
                 if(error){
                     console.log(error)
                 } else {
-                    if(data.id){
-                        if(data.name){
-                            var str = data.name;
-                            db.collection(data.collection,function(error,collection){
-                                collection.find( { name: { $regex: str, $options: 'i' } } ).toArray(function(error,result){
-                                    if(error){
-                                        callback(ApiResult(false, null, error));
-                                    } else {
-                                        callback(ApiResult(true, null, result));
-                                    }
-                                });
-                            })
-                        }else{
-                            var str = data.id;
-                            var arr = str.split(',');
-                            db.collection(data.collection,function(error,collection){
-                                collection.find({ID:{$in: arr}}).toArray(function(error,result){
-                                    if(error){
-                                        callback(ApiResult(false, null, error));
-                                    } else {
-                                        callback(result);
-                                    }
-                                });
-                            })                      
-                        }
-                    }else{
-                        db.collection(data.collection,function(error,collection){
-                            collection.find().toArray(function(error,result){
-                                if(error){
-                                    callback(ApiResult(false, null, error));
-                                } else {
-                                    callback(result);
-                                }
-                            })
-                        })          
-                    }
+                    db.collection(data.collection,function(error,collection){
+                        collection.find({'ID':data.id}).toArray(function(error,result){
+                            if(error){
+                                callback(error);
+                            } else {
+                                console.log(result)
+                                callback(result);
+                            }
+                        })
+                    })    
                         
                 }
-                db.close();
+               // db.close();
             })      
-        })
+       // })
     },
     
-//主页数据
-    index:function(_collection, _condition, _callback){
-        console.log(_condition)
-        db.open(function(dberror){
-            if(dberror){
-                _callback(ApiResult(false, null, dberror));
-                return;
-            }
+    //主页数据
+    index:function(_collection, data, _callback){
+       
+        // db.open(function(dberror){
+        //     if(dberror){
+        //         _callback(ApiResult(false, null, dberror));
+        //         return;
+        //     }
 
             db.collection(_collection,function(collerror,collection){
                 if(collerror){
@@ -269,26 +246,25 @@ module.exports = {
                     return;
                 }
                
-                collection.find(_condition).toArray(function(resulterror, dataset){
+                collection.find({'name':data}).toArray(function(resulterror, dataset){
                     if(resulterror){
-                        console.log(123)
                         _callback(ApiResult(false, null, resulterror));    
                     } else {
                          
-                         console.log(dataset)
+                       
                         _callback(dataset);
                     }
                 })
             })
-             db.close();
-        })
+             // db.close();
+        // })
        
     },
     Fydata:function(_collection, data, callback){
-        db.open(function(error, db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error, db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             db.collection(data.collection,function(error,collection){
                  var num;
                 collection.count({}, function(err, count){
@@ -302,14 +278,14 @@ module.exports = {
                     }
                 })
             }) 
-            db.close();
-        })
+        //     db.close();
+        // })
     },
     showAccount: function(_collection,data,callback){
-        db.open(function(error,db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error,db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             db.collection(_collection, function(error, collection){
                 if(error){
@@ -351,15 +327,15 @@ module.exports = {
 
 
                 }
-                db.close();
+               // db.close();
             })      
-        })
+       // })
     },
     exist:function(_collection, data, arr, callback){
-        db.open(function(error, db){
-            if(error){
-                console.log('connect db:', error);
-            }
+        // db.open(function(error, db){
+        //     if(error){
+        //         console.log('connect db:', error);
+        //     }
             //Account => 集合名（表名）
             var obj = {};
             arr.forEach(function (ele) {
@@ -376,15 +352,15 @@ module.exports = {
                     });
                 }
             });
-            db.close();		
-        })	
+        //     db.close();		
+        // })	
     },
     del:function(_collection, data){
 	// console.log(data)
-	db.open(function(error, db){
-		if(error){
-			console.log('connect db:', error);
-		}
+	// db.open(function(error, db){
+	// 	if(error){
+	// 		console.log('connect db:', error);
+	// 	}
 		//Account => 集合名（表名）
 		db.collection(_collection, function(error, collection){
 			if(error){
@@ -394,14 +370,14 @@ module.exports = {
 				collection.remove({_id:(data._id)},true);				
 			}				
 		})
-		db.close();	
-	})	
+	// 	db.close();	
+	// })	
     },
     updateData : function(_collection,olddata,newdata){
-	db.open(function(error, db){
-		if(error){
-			console.log('connect db:', error);
-		}
+	// db.open(function(error, db){
+	// 	if(error){
+	// 		console.log('connect db:', error);
+	// 	}
 		db.collection(_collection,function(error, collection){
             if(error){
                 console.log(error)
@@ -413,8 +389,8 @@ module.exports = {
                 });
             }
         });
-        db.close();
-    })    
+    //     db.close();
+    // })    
 }
 
 }

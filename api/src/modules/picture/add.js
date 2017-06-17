@@ -2,10 +2,16 @@ import $ from 'jquery'
 import "../../../libs/jquery/jquery.form"
 
 $(function(){
-	$('.shangchuan').click(function(){
-        $('.formfile').ajaxSubmit({
+    // location.reload() history.go(0)  
+//     $('#shangchuan').on('click',function(){
+       	
+//     })
+// })
+	$('#shangchuan').click(function(){
+         console.log(123)
+        $('#formfile').ajaxSubmit({
             type: 'post',
-            url: 'http://localhost:7000/upload',
+            url: 'http://10.3.133.43:7000/upload',
             success:function(data){
                 console.log(data);
                 $('#fqwe').val(data)
@@ -15,6 +21,6 @@ $(function(){
                 console.log(textStatus);
                 console.log(errorThrown);
             }
-        })		
+        })	
     })
 })

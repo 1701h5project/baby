@@ -12,11 +12,11 @@ export default function(state = {loading:false,text:['全部商品','销售','�
             break
         case types.SUCCESS:
             if(reState.index == "0"){
-                console.log(action.body)
                 reState.goodsdata = action.body
                 reState.lastFetched = action.lastFetched
                 reState.loading = false
                 reState.num+=6
+                reState.display=false
                 break
             }
             if(reState.index == "1"){
@@ -37,6 +37,7 @@ export default function(state = {loading:false,text:['全部商品','销售','�
                 reState.goodsdata = data
                 reState.lastFetched = action.lastFetched
                 reState.loading = false
+                reState.display=false
                 break
             }
             if(reState.index == "2"){
@@ -58,11 +59,13 @@ export default function(state = {loading:false,text:['全部商品','销售','�
                 reState.goodsdata = data
                 reState.lastFetched = action.lastFetched
                 reState.loading = false
+                reState.display=false
                 break
             }
             reState.goodsdata = action.body
             reState.lastFetched = action.lastFetched
             reState.loading = false
+            reState.display=false
             break
         case types.FAILURE:
             reState.error = action.error
@@ -72,6 +75,7 @@ export default function(state = {loading:false,text:['全部商品','销售','�
             reState.active='none'
             reState.goodsdata=[]
             reState.num=6
+            reState.display=false
     }
     return reState;
 }

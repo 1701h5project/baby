@@ -1,8 +1,17 @@
 ﻿var DB = require('../module/DBHelper');
 var ApiResult = require('../module/ApiResult');
-
+var multer = require ('multer');
 var bodyParser = require('body-parser');
-
+var storage = multer.diskStorage({  
+  destination: function (req, file, cb) {  
+    cb(null, './upload')  
+  },  
+  filename: function (req, file, cb) {  
+      var fileFormat = (file.originalname).split(".");
+      cb(null, file.fieldname + '-' + Date.now() + "." + fileFormat[fileFormat.length - 1]);    
+  }  
+})
+var upload = multer({ storage: storage })
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 exports.Register = function(app){
@@ -80,9 +89,34 @@ exports.Register = function(app){
             })
         }        
     })
-    // app.post('/shopData',urlencodedParser,function(request,respond){
-        
-    // });
+
+    //保存地址
+    app.post('/updateAccount',urlencodedParser,function(request,response){
+        var obj = request.body;
+        console.log(obj)
+        DB.updatedata(obj.collection, request.body);
+        response.send('{state: true}');
+    });
+
+  //增加数据
+    app.post('/indexData', urlencodedParser, function(request, response){
+        var obj = request.body;
+        DB.exists(obj.collection, request.body, 'id', function(result){
+            if(result){
+                response.send('{state: false, message: "用户名已存在"}');
+            } else {
+                DB.saveData(obj.collection, request.body);
+                response.send('{state: true}');
+            }
+        })
+    })
+
+    app.post('/personal',urlencodedParser,function(request,response){
+        var obj = request.body;
+        DB.showAccount(obj.collection,request.body,function(result){
+            response.send(result);
+        });
+    });
    
     // 增加数据
     app.post('/showAdd',urlencodedParser,function(request,response){
@@ -112,14 +146,20 @@ exports.Register = function(app){
     });
     //获取数据
     app.post('/showData',urlencodedParser,function(request,response){
-        console.log(request.body.collection,'123')
         var obj = request.body;
         DB.showData(obj.collection,request.body,function(result){
           response.send(result);
         }); 
     });
+    // 上传
+    app.post('/upload',upload.array('photos', 12), function(req, res) {
+        // console.log(123)
+	console.log(req.files[0].filename);  
+	// console.log(req.body); 	 	
+	 res.send(req.files[0].filename); 
+    });
 
-     //获取classify数据
+    //获取classify数据
     app.post('/showClassifyData',urlencodedParser,function(request,response){
         var obj = request.body;
         console.log(obj.collection)
@@ -146,29 +186,19 @@ exports.Register = function(app){
           response.send(result);
         }); 
     });
+    //搜索
+    app.post('/goodsSearch',urlencodedParser,function(request,response){
+        var obj = request.body;
+        DB.goodsSearch(obj.collection,request.body,function(result){
+          response.send(result);
+        }); 
+    });
+
 
 
 
 //
-  //增加数据
-    app.post('/indexData', urlencodedParser, function(request, response){
-        var obj = request.body;
-        DB.exists(obj.collection, request.body, 'id', function(result){
-            if(result){
-                response.send('{state: false, message: "用户名已存在"}');
-            } else {
-                DB.saveData(obj.collection, request.body);
-                response.send('{state: true}');
-            }
-        })
-    })
 
-    app.post('/personal',urlencodedParser,function(request,response){
-        var obj = request.body;
-        DB.showAccount(obj.collection,request.body,function(result){
-            response.send(result);
-        });
-    });
 
 //
 app.post('/updataadress', urlencodedParser, function(request, response){
@@ -219,14 +249,49 @@ app.post('/updataadress', urlencodedParser, function(request, response){
 
     //主页数据
      app.post('/app', urlencodedParser, function(request, response){
-       
-        DB.index('index',request.body,function(result){
-            console.log(result)
-           
+    //    console.log('222222',request.body)
+       var collection = request.body.collection;
+     
+       var obj = request.body.name
+    //    console.log('============',obj)
+        DB.index(collection,obj,function(result){
+         
+           console.log('------=============',result)
                 response.send(result);
            
         })
     })
+
+    app.post('/checkall', urlencodedParser, function(request, response){
+        var data = JSON.parse(request.body.data);
+        var isUpdate = false;
+        DB.exist('address',{},[],function(result){
+            result.forEach(function(item){	 	      		
+                if(item.userPhone == request.body.phone){
+                    isUpdate = true;  		         
+                    DB.updateData('address',item,data);
+                    return false;
+                }
+            });
+        });
+        !isUpdate ? response.send(apiResult(true, '修改成功',request.body)):response.send(apiResult(false, '修改失败'));
+    });
+
+    app.post('/getaccount', urlencodedParser, function(request, response){
+        //console.log(request.body)
+        DB.exist('account', {} ,[],function(result){
+            console.log(result)
+            var arr = []
+            result.forEach(function(item,index){                    
+                if(item.userphone == request.body.phone){
+                    console.log(item)                   
+                    arr.push(item);             
+                }       
+            })
+            //console.log(arr)      
+            response.send(ApiResult(false, '资料修改成功',arr));      
+        })
+    });
     
     
 }

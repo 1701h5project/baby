@@ -9,8 +9,8 @@
                 li{
                     float:left;
                     width:50%;
-                    height:2.3rem;
                     padding:0.1rem;
+                    
                     a{
                         img{
                             width:1.45rem;
@@ -19,14 +19,17 @@
                     }
                     .clearance_name{
                         font-size: 0.13rem;
-                        white-space: nowrap;
+                        -webkit-line-clamp: 2;
                         text-overflow: ellipsis;
                         overflow: hidden;
-                      
+                        -webkit-box-orient: vertical;
+                        word-break: break-all;
+                        display: -webkit-box;
                     }
                     .clearance_sale{
                         font-size: 0.13rem;
                         color:orange;
+                        margin:0.1rem 0;
                     }
                     .clearance_buy{
                         display: block;

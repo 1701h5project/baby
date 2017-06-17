@@ -16,7 +16,6 @@ export default function(state = {loading: false,message:''}, action){
             reState.loading = true
             break
         case types.SUCCESS:
-            console.log('login')
             reState.data = action.body
             reState.lastFetched = action.lastFetched
             reState.loading = false

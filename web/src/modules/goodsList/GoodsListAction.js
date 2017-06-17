@@ -1,14 +1,5 @@
 import * as constants from '../../redux/commonConstant'
 
-// export function login(username, password){
-//     return {
-//         types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
-//         path: 'login',
-//         method: 'post',
-//         query: {username, password}
-//     }
-// }
-
 export function goodsList(index){
     return {
         type: constants.GOODSLIST_SEL,
@@ -29,5 +20,13 @@ export function fyGetData(num){
         path: 'goods-Fy',
         method: 'post',
         query: {'collection':'goods','num':num}
+    }
+}
+export function search(key){
+    return {
+        types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
+        path: 'goodsSearch',
+        method: 'post',
+        query: {'collection':'goods','name':key}
     }
 }

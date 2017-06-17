@@ -10,6 +10,22 @@ class BackTopComponent extends Component {
     constructor(props){
         super(props)
     }
+
+    //组件加载后监听滚动事件
+    componentDidMount(){
+        window.addEventListener('scroll',this.onScroll.bind(this))
+    }
+
+
+    
+    onScroll(){
+        if(window.scrollY<=50){
+            this.refs.backTop?this.refs.backTop.style.display = 'none':'';
+        }else{
+            this.refs.backTop?this.refs.backTop.style.display = 'block':'';
+        }
+    }
+
     backTop(){
 
         var time=setInterval(function(){
@@ -26,9 +42,15 @@ class BackTopComponent extends Component {
     }
     render(){
         return(
-            <div className="backTop" onClick={this.backTop.bind(this)}>
-                <a href="javascript:;"></a>
+            <div className="back_btn" ref="backTop" style={{display:'none'}}>
+                <div className="backIndex">
+                    <Link to='/' className="fa fa-home"></Link>
+                </div>
+                <div className="backTop " onClick={this.backTop.bind(this)}>
+                    <a href="javascript:;" className="fa fa-arrow-up"></a>
+                </div>
             </div>
+            
         )
     }
 }        

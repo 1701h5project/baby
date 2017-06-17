@@ -35,9 +35,116 @@ ul {
 	height: 0;
 }
 
-
+.mask{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	opacity: 0.3;
+	z-index: 2000;
+}
 .goodsList{
-	a {
+	font-size:0.12rem;
+	.right-slide{
+		position: fixed;
+		right:-2.4rem;
+		height: 100%;
+		width: 2.3rem;
+		background-color: #fff;
+		z-index: 2001;
+		transition: all 1s;
+		box-shadow: 2px 0px 5px 3px #000;
+		.slide-top{
+			display: flex;
+			height: 0.58rem;
+			width: 100%;
+			border-bottom: 0.01rem solid #d2d2d2;
+			.slide-back{
+				flex: 1;
+				line-height: 0.58rem;
+				text-align: center;
+				font-size: 0.12rem;
+				span{
+					display: inline-block;
+					width: 0.85rem;
+					height: 0.32rem;
+					background-color: #f60;
+					border-radius: 0.04rem;
+					line-height: 0.32rem;
+					margin:0 auto;
+					text-align: center;
+					color: #fff;
+				}
+			}
+			.slide-checked{
+				flex: 1;
+				line-height: 0.58rem;
+				text-align: center;
+				span{
+					display: inline-block;
+					width: 0.85rem;
+					height: 0.32rem;
+					background-color: #f60;
+					border-radius: 0.04rem;
+					margin:0 auto;
+					line-height: 0.32rem;
+					text-align: center;
+					color: #fff;
+				}
+			}
+		}
+		.slide-bottom{
+			width: 100%;
+			height: 5.1rem;
+			position: relative;
+			.slide-section{
+				margin-left:0.2rem;
+				height: 0.45rem;
+				width:2.1rem;
+				border-bottom:0.01rem solid #d2d2d2;
+				font-size: 0.12rem;
+				line-height: 0.45rem;
+				.rightLink{
+					float:right;
+					height: 0.45rem;
+					display: inline-block;
+					line-height: 0.45rem;
+					color: rgb(31, 135, 200);
+					i{
+						margin:0px 5px 0px 5px;
+						display: inline-block;
+						font-size: 24px;
+						color: #f60;
+						position: relative;
+						top:3px;
+					}
+				}
+			}
+			.r-rightLink{
+				position: absolute;
+				top: 0px;
+				right:-2.2rem;
+				width: 2.1rem;
+				height: 5.1rem;
+				background-color: #fff;
+				z-index:2005;
+				box-shadow:0px 0px 0px 0px #fff,-1px 2px 4px 0px #000; 
+				border-left:0.01rem solid #d2d2d2;
+				transition: all 1s;
+				span{
+					color: #f60;
+					text-align: center;
+					margin:0 auto;
+					display:block;
+					width: 0.7rem;
+					height: 0.45rem;
+					border-bottom:0.01rem solid #d2d2d2; 
+					line-height: 0.45rem;
+				}
+			}
+		}	
+	}
+	a{
 		text-decoration: none;
 		color:#82737A;
 	}
@@ -56,13 +163,13 @@ ul {
 	.goodsList-top{
 		position: fixed;
 		width: 100%;
-		height: 0.44rem;
+		height: 0.46rem;
 		background-color: #f60;
 		.main-logo{
 			float: left;
 			width: 0.4rem;
 			height: 0.32rem;
-			padding: 0.06rem 0 0 0.15rem;
+			padding: 0.07rem 0 0 0.15rem;
 			line-height: 0.32rem;
 			i{
 				color:#fff;
@@ -77,7 +184,7 @@ ul {
 			background-color: #ff8c3c;
 			color: #fff;
 			border-radius: 0.03rem;
-			margin-top: 0.08rem;
+			margin-top: 0.09rem;
 			margin-left: 0.08rem;
 			span{
 				height: 0.3rem;
@@ -170,5 +277,13 @@ ul {
 				}
 			}
 		}		
+	}
+	h1{
+		height: 0.3rem;
+		text-align: center;
+		font-weight: normal;
+		color:#f60;
+		line-height: 0.3rem;
+		font-size:0.12rem;
 	}
 }

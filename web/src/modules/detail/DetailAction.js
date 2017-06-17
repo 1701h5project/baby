@@ -21,6 +21,7 @@ export function getInfo(id){
     }
 }
 
+
 export function addUsershop(shopObj){
     return {
         types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],

@@ -1,7 +1,7 @@
 //http://visionmedia.github.io/superagent/
 import request from 'superagent'
 
-const LOCAL_SERVER = 'http://10.3.133.60:7000/';
+const LOCAL_SERVER = 'http://10.3.133.43:7000/';
 
 const DEV_SERVER = '';
 const PRO_SERVER = '';
@@ -28,6 +28,8 @@ const HttpClient = {
     }),
 
     post: (path, formdata, query) => new Promise((resolve, reject) => {
+        // console.log(formdata)
+        // console.log(JSON.stringify(formdata.address),2)
         request
             .post(getUrl(path))
             .set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')

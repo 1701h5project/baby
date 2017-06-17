@@ -1,6 +1,6 @@
 import * as types from '../../redux/commonConstant'
 
-export default function userInfo(state = {data:[{"nickname":"请登录"}]}, action){
+export default function personal(state = {data:[{"nickname":"请登录"}]}, action){
     switch (action.type) {
         case types.REQUEST:
             return state;

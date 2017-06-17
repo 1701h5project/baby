@@ -13,7 +13,6 @@ export default function detail(state = {num:1,detailInfo:""}, action){
             state.num--;
             return state;
         case types.SUCCESS:
-            console.log('detail')
             state.detailInfo = action.body;
             return state;
         default:

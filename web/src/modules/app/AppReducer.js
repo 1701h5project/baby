@@ -3,6 +3,7 @@ import * as types from '../../redux/commonConstant'
 export default function(
     state = {loading: false,
                 data:[],
+                count:0
             }
             , action){
     
@@ -12,8 +13,9 @@ export default function(
             reState.loading = true
             break
         case types.SUCCESS:
-           
+ 
             reState.data = action.body
+            console.log(reState.data.length)
             reState.lastFetched = action.lastFetched
             reState.loading = false
             break

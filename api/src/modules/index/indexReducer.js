@@ -8,9 +8,7 @@ import * as types from '../../redux/commonConstant'
 export default function(state = {loading: false,datas:''}, action){
     // console.log(action)
     let reState = JSON.parse(JSON.stringify(state))
-    // if(action.body != undefined ){
-    //     reState.datas=action.body
-    // }   
+    
     switch(action.type){
         case types.REQUEST:
             reState.loading = true
@@ -26,8 +24,7 @@ export default function(state = {loading: false,datas:''}, action){
             reState.error = action.error
             reState.loading = false
             break
+        default:
     }
     return reState;
-    // console.log(action)
-    // return {loading: true, name: 'Tom'};
 }

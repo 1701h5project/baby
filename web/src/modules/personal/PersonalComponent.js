@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import * as personalActions from './PersonalAction'
 
 import './Personal.scss'
-import './rem'
 
 class PersonalComponent extends React.Component{
     constructor(props){
@@ -12,7 +11,6 @@ class PersonalComponent extends React.Component{
     }
 
     componentDidMount() {
-        console.log(window.localStorage.getItem('userphone'))
         this.props.personal('account',window.localStorage.getItem('userphone')).then(reponse =>{
             
         })
@@ -65,16 +63,17 @@ class PersonalComponent extends React.Component{
                         <li><span className="iconfont icon-dikouquan">抵扣券</span></li>
                         <li><span className="iconfont icon-tuangou">我的团</span></li>
                         <li><span className="iconfont icon-shoucang-shoucang">我的收藏</span></li>
-                        <li><span className="iconfont icon-llcouponsupportedshopaddress">地址管理</span></li>
+                        <Link to="address/addressList"><li><span className="iconfont icon-llcouponsupportedshopaddress">地址管理</span></li></Link>
                         <li><span className="iconfont icon-shezhi">帐号设置</span></li>
                     </ul>
                 </div>
                 <div className="footer">
                     <ul>
                         <li className="home">
-                        
-                            <span></span>
-                            <span>首页</span>
+                            <Link to="/">
+                                <span></span>
+                                <span>首页</span>
+                            </Link>
                         </li>
                         <li className="classify">
                             <Link to="/classify">
@@ -91,18 +90,19 @@ class PersonalComponent extends React.Component{
                         <li className="user">
                             <Link to="/personal">
                                 <span></span>
-                                <span>用户</span>
+                                <span>账户</span>
                             </Link>
                         </li>
                     </ul>
                 </div>
                 <div className="out"><Link onClick={this.outUserInfo.bind(this)}>退出当前用户</Link></div>
+                <div>{this.props.children}</div>
            </div> 
         )
     }
 }
 
 const mapStateToProps = state => ({
-    data:state.userInfo.data
+    data:state.personal.data
 })
 export default connect(mapStateToProps, personalActions)(PersonalComponent)

@@ -3,7 +3,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import * as loginActions from './LoginAction'
 import SpinnerComponent from '../spinner/SpinnerComponent'
-import './rem'
 import './Login.scss'
 // var ReactRouter = require('react-router');
 // var {Router,Route,hashHistory,Link,IndexRoute,browserHistory} = ReactRouter;
@@ -42,7 +41,7 @@ class LoginComponent extends React.Component {
         return(
             <div className="login">
                 <div className="header">
-                    <a href="" className="iconfont icon-fanhui" onClick={this.goBack}></a>
+                    <a href="" className="fa fa-angle-left" onClick={this.goBack}></a>
                 </div>
                 <ul>
                     <li><input type="text" ref="userphone" placeholder="请输入手机号"/></li>
@@ -52,7 +51,6 @@ class LoginComponent extends React.Component {
                 </ul>
                 <SpinnerComponent show={this.props.loading}/>
             </div>
-
         )
     }
 }

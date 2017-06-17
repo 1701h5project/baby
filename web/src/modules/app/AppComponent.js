@@ -5,11 +5,28 @@ import Slider from './Slider/Slider';
 import SpinnerComponent from '../spinner/SpinnerComponent'
 import './App.scss';
 import './../../static/common/rem';
-
+import './../../static/libs/font-awesome-4.7.0/css/font-awesome.min.css'
 
 import {Router, Route, hashHistory, Link, IndexRoute, browserHistory} from 'react-router'
   
-
+const IMAGE_DATA = [
+                {
+                    src: require('../../static/imgs/index/banner1.jpg'),
+                    alt: 'images-1',
+                },
+                {
+                    src: require('../../static/imgs/index/banner2.jpg'),
+                    alt: 'images-2',
+                },
+                {
+                    src: require('../../static/imgs/index/banner3.jpg'),
+                    alt: 'images-3',
+                },
+                {
+                    src: require('../../static/imgs/index/banner4.jpg'),
+                    alt: 'images-4',
+                },
+            ];
 
 
 
@@ -18,10 +35,33 @@ class AppComponent extends Component{
         super(props)
         
     }
+    //组件加载后监听滚动事件
+    componentDidMount(){
+        window.addEventListener('scroll', this.onScroll.bind(this));
+    }
+    
 
+    //组件加载前
     componentWillMount(){
         this.props.app('index')
-      
+    }
+   
+
+    onScroll(){
+    //     let count = this.props.count;
+    //     // let height = this.refs.main.offsetHeight;
+    //     console.log(window.scrollY)
+    //     if(window.scrollY >window.innerHeight + 300 && this.props.count <= 15){
+       
+    //           this.props.app(count)
+ 
+    //     }
+        
+        if(window.scrollY <= 50){
+                 this.refs.backTop? this.refs.backTop.style.display = 'none':'';
+        }else{
+                 this.refs.backTop? this.refs.backTop.style.display = 'block':''; 
+        }
     }
   
 
@@ -41,39 +81,44 @@ class AppComponent extends Component{
             
 
     }
-    keyDown(e){
-        	//绑定回车添加
-		if(e.keyCode === 13 && e.target.value){
-			
-			window.localStorage.setItem('search',e.target.value);
-            window.location.href = 'index.html#/goodsList'
-		}
+    //点击搜索关键字
+    searchKey(){
+
+        let keys = this.refs.keys.value;
+        if(!keys){
+            alert('请输入搜索的内容')
+            return false;
+        }else{
+            //本地存储
+            window.localStorage.setItem('search',keys);
+
+            //跳转到goodsList页面
+            hashHistory.push('/goodsList')
+        }	
+      
+		
+	
     }
     render(){
-         const IMAGE_DATA = [
-                {
-                    src: require('../../static/imgs/index/banner1.jpg'),
-                    alt: 'images-1',
-                },
-                {
-                    src: require('../../static/imgs/index/banner2.jpg'),
-                    alt: 'images-2',
-                },
-                {
-                    src: require('../../static/imgs/index/banner3.jpg'),
-                    alt: 'images-3',
-                },
-                {
-                    src: require('../../static/imgs/index/banner4.jpg'),
-                    alt: 'images-4',
-                },
-            ];
+       let obj = this.props.data ? this.props.data:[];
+       let today = [];
+       let sift = [];
+       let special = [];
+       for(let attr in obj){
+           today = obj[attr].today
+           sift = obj[attr].sift
+           special = obj[attr].special
+           
+       }
+       
+        
+           
         return (
         
             <div id="container">
-                <SpinnerComponent show={this.props.loading}/>
-                <div className="go_Top">
-                    <a href="javascript:;"  onClick={this.backTop.bind(this)}></a>
+                
+                <div className="go_Top" ref="backTop" style={{display:'none'}}>
+                    <a href="javascript:;" className="fa fa-arrow-up"  onClick={this.backTop.bind(this)}></a>
                 </div>
                 
 
@@ -83,13 +128,15 @@ class AppComponent extends Component{
                             <p className="logo_Name"></p>
                         </div>
                         <div className="search">
-                            <span></span>
-                            <input type="text" placeholder="搜索" onKeyDown={this.keyDown.bind(this)}/>
+                            <span className="fa fa-search"></span>
+                            <input type="text" placeholder="搜索" ref="keys"/>
                         </div>
+                        <p className="search_btn" onClick={this.searchKey.bind(this)}>搜索</p>
+                        
                     </div>                   
                 </div>
              
-                <div className="main">
+                <div className="main" ref="main">
                     <div className="banner clearfix">
                         <Slider
                             items={IMAGE_DATA}
@@ -101,7 +148,7 @@ class AppComponent extends Component{
                             arrows={true}
                         />
                     </div>
-                  
+             
                     <div className="list_Links">
                         <ul className="links clearfix">
                             <li className="exclusive_prefecture">
@@ -162,49 +209,54 @@ class AppComponent extends Component{
                             <img src="src/static/imgs/index/prefecture2.jpg" alt="" />
                         </a>
                     </div>
-                    <div className="list_title">
-                        <h2>
-                            <span>今日专场</span>
-                        </h2>
-                    </div>
-                    <div className="today_goods">
-                        <ul>
-                            {
-                             
-                                 (this.props.data||[]).map(function(obj){
-                                   return  (obj.today||[]).map(function(item){
-                                         return <li>
-                                            <div className="img_info">
-                                                <a href="#">
-                                                    <img src={`src/static/imgs/index/${item.imgInfo}`} alt="" />
-                                                </a>
-                                                <div className="SurplusTime">
-                                                    <span></span>
-                                                    <span>剩余7天</span>
+                    
+                    <div>
+                        <div className="list_title">
+                            <h2>
+                                <span>今日专场</span>
+                            </h2>
+                        </div>
+                        <div className="today_goods">
+                            <ul>
+                                {
+
+                                            
+                                (today||[]).map(function(item){
+                                        return <li>
+                                                <div className="img_info">
+                                                    <a href="#">
+                                                        <img src={`src/static/imgs/index/${item.imgInfo}`} alt="" />
+                                                    </a>
+                                                    <div className="SurplusTime">
+                                                        <span></span>
+                                                        <span>剩余7天</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="text_info">
-                                                <span>{item.textInfo}</span>
-                                                <span>{item.priceInfo}</span>
-                                            </div>
-                                        </li>
-                                     })
-                                    
-                                })
-                            }              
-                        </ul>
+                                                <div className="text_info">
+                                                    <span>{item.textInfo}</span>
+                                                    <span>{item.priceInfo}</span>
+                                                </div>
+                                            </li>
+
+                                       
+                                    })
+                                }             
+                            </ul>
+                        </div>
                     </div>
+                 
                     <div className="list_title">
                         <h2>
                             <span>精选爆款</span>
                         </h2>
                     </div>
-                    <div className="today_goods">
+                     
+                        <div className="today_goods">
                         <ul>
                             {
                                 
-                                (this.props.data||[]).map(function(obj){
-                                    return (obj.sift || []).map(function(item){
+                            
+                                    (sift || []).map(function(item){
                                         return <li>
                                             <div className="img_info">
                                                 <a href="#">
@@ -221,22 +273,22 @@ class AppComponent extends Component{
                                             </div>
                                         </li>
                                     })
-                                    
-                                })
                             }
                         </ul>
                     </div> 
+                
                     <div className="list_title">
                         <h2>
                             <span>今日特卖</span>
                         </h2>
                     </div>  
+                    {
                     <div className="today_sale">
                         <ul>
                             {
-                                (this.props.data||[]).map(function(obj){
-                                    return (obj.special||[]).map(function(item){
-                                        console.log(item)
+                              
+                                    (special||[]).map(function(item){
+                  
                                         return <li>
                                                     <div className="clearfix">
                                                         <div className="img_left">
@@ -273,11 +325,11 @@ class AppComponent extends Component{
                                                     </div>
                                                 </li>
                                     })
-                                })
                             }
 
                         </ul>
                     </div>
+                    }
                     <div className="no_more">
                         <span></span>
                         <span>没有更多啦！</span>
@@ -306,11 +358,12 @@ class AppComponent extends Component{
                         <li className="user">
                             <Link to="/personal">
                                 <span></span>
-                                <span>用户</span>
+                                <span>账户</span>
                             </Link>
                         </li>
                     </ul>
                 </div>
+                <SpinnerComponent show={this.props.loading}/>
             </div>
         )
     }
@@ -320,6 +373,6 @@ class AppComponent extends Component{
 const mapStateToProps = state => ({
     loading: state.login.loading,
     data:state.app.data,
-
+    count:state.app.count
 })
 export default connect(mapStateToProps, appAction)(AppComponent)

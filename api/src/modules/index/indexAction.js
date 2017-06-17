@@ -1,14 +1,16 @@
 import * as constants from '../../redux/commonConstant'
+
+
 // 获取数据
-export function index(goods){
+export function index(goods,num){
     return {
         types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
         path: 'showData', 
         method: 'post',
-        query: {'collection':'goods'}
+        query: {'collection':'goods','page':num}
     }
-}
-// export function indexs(id){
+} 
+// export function indexs(id){ 
 //     // console.log(id)
 //     return {
 //         types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
@@ -29,7 +31,6 @@ export function indexxun(id){
 }
 // 删除
 export function indexdel(asd){
-    // console.log(asd)
     return {
         types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
         path: 'showRemove',
@@ -37,18 +38,11 @@ export function indexdel(asd){
         query: {'id':asd}
     }
 }
-// export function indexup(q,w,e,r,a,s){
-//     // console.log(asd)
+// export function index(goods,num){
 //     return {
 //         types: [constants.REQUEST, constants.SUCCESS, constants.FAILURE],
-//         path: 'updateData',
+//         path: 'goods-Fy',
 //         method: 'post',
-//         query: {q,w,e,r,a,s}
-//     }
-// }
-
-// export function login(username, password){
-//     return {
-//         type: 'aa'
+//         query: {'collection':goods,'num':num}
 //     }
 // }

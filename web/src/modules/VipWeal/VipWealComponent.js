@@ -3,7 +3,9 @@ import connect from 'react-redux';
 import SpinnerComponent from './../spinner/SpinnerComponent'
 import './VipWeal.scss';
 import './../../static/common/rem';
+import '../../static/libs/font-awesome-4.7.0/css/font-awesome.min.css'
 import BackTopComponent from './../backTop/BackTopComponent'
+import FooterComponent from './../footer/FooterComponent'
 import {Router, Route, hashHistory, Link, IndexRoute, browserHistory} from 'react-router'
 
 class VipWealComponent extends Component {
@@ -14,13 +16,11 @@ class VipWealComponent extends Component {
     render(){
         return(
             <div id="container">
-                <div className="backIndex">
-                    <Link to='/'></Link>
-                </div>
+
                 <BackTopComponent/>
                     
                 <div className="header">
-                    <a href="javascript:history.go(-1);" className="backPrev"></a>
+                    <a href="javascript:history.go(-1);" className="backPrev fa fa-angle-left"></a>
                     <span className="title">新人福利</span>
                 </div>
                 <div className="main">
@@ -33,18 +33,7 @@ class VipWealComponent extends Component {
                         </a>
                     </div>
                 </div>
-                <div className="footer">
-                    <ul>
-                        <li className="login">
-                            <span></span>
-                            <span>登录</span>
-                        </li>
-                        <li className="register">
-                            <span></span>
-                            <span>注册</span>
-                        </li>
-                    </ul>
-                </div>
+                <FooterComponent />
             </div>
         )
     }
